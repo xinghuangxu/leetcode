@@ -6,6 +6,7 @@ import helper.TreeNode;
  * Created by Xinghuang Leon Xu on 8/31/2015.
  */
 public class CountCompleteTreeNodes {
+
     public int countNodes(TreeNode root) {
         if (root == null) return 0;
         int leftHeight = getLeftHeight(root);
