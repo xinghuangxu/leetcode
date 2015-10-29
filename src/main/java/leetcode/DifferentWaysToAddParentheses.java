@@ -1,7 +1,9 @@
 package leetcode;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by xinghuangxu on 9/10/15.
@@ -9,6 +11,7 @@ import java.util.List;
 public class DifferentWaysToAddParentheses {
     List<Integer> numbers = new ArrayList<Integer>();
     List<Character> operators = new ArrayList<Character>();
+    Map<String, List<Integer>> mem = new HashMap();
 
     public List<Integer> diffWaysToCompute(String input) {
         parseFormula(input);
@@ -16,17 +19,22 @@ public class DifferentWaysToAddParentheses {
     }
 
     private List<Integer> diffWaysToComputeRecursively(int start, int end) {
+        String key = start + ":" + end;
+        if (mem.containsKey(key)) {
+            return mem.get(key);
+        }
         List<Integer> result = new ArrayList<Integer>();
         if (start == end) {
             result.add(numbers.get(start));
             return result;
         }
-        for (int i = start; i < end - 1; i++) {
+        for (int i = start; i < end; i++) {
             List<Integer> left = diffWaysToComputeRecursively(start, i);
             List<Integer> right = diffWaysToComputeRecursively(i + 1, end);
             List<Integer> out = calculate(left, operators.get(i), right);
             result.addAll(out);
         }
+        mem.put(key, result);
         return result;
     }
 

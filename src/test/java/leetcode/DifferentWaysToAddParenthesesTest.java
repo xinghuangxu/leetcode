@@ -3,6 +3,7 @@ package leetcode;
 import junit.framework.TestCase;
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertArrayEquals;
@@ -17,7 +18,14 @@ public class DifferentWaysToAddParenthesesTest extends TestCase {
     public void test() {
         DifferentWaysToAddParentheses differentWaysToAddParentheses = new DifferentWaysToAddParentheses();
         List<Integer> result = differentWaysToAddParentheses.diffWaysToCompute("2*3-4*5");
-        assertArrayEquals(new Integer[]{-34, -14, -10, -10, 10}, result.toArray());
+        assertArrayEquals(new Integer[]{-34, -10, -14, -10, 10}, result.toArray());
+    }
+
+    @Test
+    public void test1() {
+        DifferentWaysToAddParentheses differentWaysToAddParentheses = new DifferentWaysToAddParentheses();
+        List<Integer> result = differentWaysToAddParentheses.diffWaysToCompute("2-1-1");
+        assertArrayEquals(new Integer[]{2, 0}, result.toArray());
     }
 
 }
