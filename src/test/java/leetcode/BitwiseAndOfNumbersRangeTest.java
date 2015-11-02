@@ -67,5 +67,12 @@ public class BitwiseAndOfNumbersRangeTest {
         assertEquals(2,actual);
     }
 
-
+    @Test
+    public void test7() {
+        int m = 2147483647;
+        int n = 2147483647;
+        BitwiseAndOfNumbersRange bitwiseAndOfNumbersRange = new BitwiseAndOfNumbersRange();
+        int actual=bitwiseAndOfNumbersRange.rangeBitwiseAnd(m, n);
+        assertEquals(2147483647,actual);
+    }
 }
