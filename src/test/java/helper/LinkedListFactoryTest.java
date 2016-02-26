@@ -18,4 +18,26 @@ public class LinkedListFactoryTest extends TestCase {
             list= list.next;
         }
     }
+
+    @Test
+    public void test2() {
+        ListNode list = LinkedListFactory.createListFromString("1->2->3->4->5");
+        ListNode list2 = LinkedListFactory.createListFromString("1->2->3->4->5");
+        ListNode list3 = LinkedListFactory.createListFromString("2->3->4->5");
+        ListNode list4 = LinkedListFactory.createListFromString("1->2->3->4->5->6");
+        assertTrue(LinkedListFactory.isEqual(list, list2));
+        assertFalse(LinkedListFactory.isEqual(list, list3));
+        assertFalse(LinkedListFactory.isEqual(list,list4));
+    }
+
+    @Test
+    public void test3() {
+        ListNode list = LinkedListFactory.createListFromString("1->2->3->4->5");
+        ListNode list2 = LinkedListFactory.createListFromString("1->2->3->4->5");
+        ListNode list3 = LinkedListFactory.createListFromString("2->3->4->5");
+        ListNode list4 = LinkedListFactory.createListFromString("1->2->3->4->5->6");
+        assertTrue(LinkedListFactory.isEqual(list, list2));
+        assertFalse(LinkedListFactory.isEqual(list, list3));
+        assertFalse(LinkedListFactory.isEqual(list,list4));
+    }
 }

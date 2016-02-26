@@ -7,14 +7,29 @@ import helper.ListNode;
  */
 public class OddEvenLinkedList {
     public ListNode oddEvenList(ListNode head) {
-        ListNode evenStart,evenEnd, oddEnd;
-        evenStart = head.next;
+        if(head==null || head.next==null) return head; //list has only one element
+
+        ListNode evenStart=new ListNode(0),evenEnd, oddStart=new ListNode(0), oddEnd;
+        oddEnd=oddStart;
         evenEnd = evenStart;
-        oddEnd=head;
-        if(evenEnd==null)return head;
-        while(evenEnd!=null){
-            
+
+        boolean odd=true;
+        ListNode cur = head, tmp;
+        while(cur!=null){
+            tmp = cur;
+            cur = cur.next;
+            tmp.next = null;
+            if(odd){
+                oddEnd.next = tmp;
+                oddEnd = tmp;
+            }else{
+                evenEnd.next = tmp;
+                evenEnd = tmp;
+            }
+            odd=!odd;
         }
-        return null;
+        evenEnd.next = null;
+        oddEnd.next = evenStart.next;
+        return oddStart.next;
     }
 }
