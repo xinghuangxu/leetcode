@@ -1,12 +1,9 @@
 package leetcode;
 
-import java.math.BigInteger;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Created by k586j642 on 2/29/2016.
+
  */
 public class PatchingArray {
 

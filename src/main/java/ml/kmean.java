@@ -23,6 +23,7 @@ public class Kmean {
                 for (int j = 0; j < k; j++) {
                     double curDistance = Math.sqrt(Math.pow(centroids.get(j).x - cur.x, 2) + Math.pow(centroids.get(j).y - cur.y, 2));
                     if (curDistance < distance) {
+                        distance = curDistance;
                         minJ = j;
                     }
                 }
@@ -30,7 +31,7 @@ public class Kmean {
             }
             centroids = new ArrayList<Point2D>();
             for (int i = 0; i < k; i++) {
-                List<Point2D> list = clusters[k];
+                List<Point2D> list = clusters[i];
                 Point2D nCentroids = new Point2D(0, 0);
                 for (Point2D p : list) {
                     nCentroids.x = p.x + nCentroids.x;
