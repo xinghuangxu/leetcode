@@ -15,4 +15,13 @@ public class CountOfRangeSumTest extends TestCase {
         int upper = 2;
         assertEquals(3,countOfRangeSum.countRangeSum(nums,lower,upper));
     }
+
+    @Test
+    public void test2() {
+        CountOfRangeSum countOfRangeSum = new CountOfRangeSum();
+        int[] nums = {2147483647,-2147483648,-1,0};
+        int lower = -1;
+        int upper = 0;
+        assertEquals(4,countOfRangeSum.countRangeSum(nums,lower,upper));
+    }
 }
