@@ -19,12 +19,12 @@ public class IsomorphicStrings {
             Character t1 = s.charAt(i);
             Character t2 = t.charAt(i);
 
-            //one direction
+            //one xdirection
             if(m1[t1]==0){
                 m1[t1]=t2;
             }
 
-            //second direction
+            //second xdirection
             if(m2[t2]==0){
                 m2[t2]=t1;
             }

@@ -17,7 +17,7 @@ public class LongestIncreasingPathInAMatrixTest extends TestCase {
         };
         int expected = 4;
         int actual = longestIncreasingPathInAMatrix.longestIncreasingPath(nums);
-        assertEquals(actual,expected);
+        assertEquals(expected,actual);
     }
 
     @Test
