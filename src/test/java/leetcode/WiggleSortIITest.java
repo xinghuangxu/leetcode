@@ -27,4 +27,15 @@ public class WiggleSortIITest extends TestCase {
             assertTrue(nums[i]<nums[i+1]);
         }
     }
+
+    //[1,1,2,1,2,2,1]
+    @Test
+    public void test3(){
+        WiggleSortII wiggleSortII = new WiggleSortII();
+        int[] nums = new int[]{4,5,5,6};
+        wiggleSortII.wiggleSort(nums);
+        for(int i=0;i+1<nums.length;i=i+2){
+            assertTrue(nums[i]<nums[i+1]);
+        }
+    }
 }
