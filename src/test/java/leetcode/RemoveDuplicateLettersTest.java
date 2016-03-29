@@ -38,7 +38,7 @@ public class RemoveDuplicateLettersTest extends TestCase {
         RemoveDuplicateLetters removeDuplicateLetters = new RemoveDuplicateLetters();
         String s = "rusrbofeggbbkyuyjsrzornpdguwzizqszpbicdquakqws";
         String actual = removeDuplicateLetters.removeDuplicateLetters(s);
-        String expected = "acdb";
+        String expected = "bfegkuyjorndiqszpcaw";
         assertEquals(expected, actual);
     }
 }

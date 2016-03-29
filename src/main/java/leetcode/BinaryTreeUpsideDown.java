@@ -2,40 +2,45 @@ package leetcode;
 
 import helper.TreeNode;
 
+import java.util.Deque;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Stack;
 
 /**
  * Created by xinghuangxu on 3/16/16.
  */
 public class BinaryTreeUpsideDown {
-    public TreeNode upsideDownBinaryTree(TreeNode root) {
-        if (root == null) return null;
-        List<TreeNode> treeNodeList = new ArrayList();
-        int current = 0;
-        treeNodeList.add(root);
-        while (treeNodeList.size() > current) {
-            TreeNode currentNode = treeNodeList.get(current);
-            if (currentNode.left != null) {
-                treeNodeList.add(currentNode.left);
-            }
-            if (currentNode.right != null) {
-                treeNodeList.add(currentNode.right);
-            }
-            currentNode.left = null;
-            currentNode.right = null;
-            current++;
+
+    //breadth first search with parent reference
+    class CompositeTreeNode {
+
+        CompositeTreeNode(TreeNode treeNode, TreeNode parent, TreeNode sibling) {
+            this.treeNode = treeNode;
+            this.parent = parent;
+            this.sibling = sibling;
         }
 
-        return buildTree(treeNodeList, treeNodeList.size() - 2);
+        TreeNode treeNode;
+        TreeNode parent;
+        TreeNode sibling;
     }
 
-    private TreeNode buildTree(List<TreeNode> treeNodeList, int i) {
-        if (i == -1) return treeNodeList.get(0);
-        if (i < 0 || i >= treeNodeList.size()) return null;
-        TreeNode root = treeNodeList.get(i);
-        root.left = treeNodeList.get(i + 1);
-        root.right = buildTree(treeNodeList, i - 2);
-        return root;
+    public TreeNode upsideDownBinaryTree(TreeNode root) {
+        if (root == null) return null;
+        Stack<CompositeTreeNode> compositeTreeNodes = new Stack();
+        compositeTreeNodes.push(new CompositeTreeNode(root, null, null));
+        while (true) {
+            CompositeTreeNode parent = compositeTreeNodes.pop();
+            if (parent.treeNode.left != null) {
+                compositeTreeNodes.push(new CompositeTreeNode(parent.treeNode.left, parent.treeNode, parent.treeNode.right));
+            }
+            parent.treeNode.right = parent.parent;
+            parent.treeNode.left = parent.sibling;
+            if (compositeTreeNodes.empty()) {
+                return parent.treeNode;
+            }
+        }
     }
+
 }
