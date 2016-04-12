@@ -1,13 +1,40 @@
 package leetcode;
 
-import java.util.Calendar;
-import java.util.List;
-import java.util.ArrayList;
+import java.util.*;
 
 /**
  * Created by xinghuangxu on 3/24/16.
  */
 public class RemoveDuplicateLetters {
+
+    public String removeDuplicateLetters(String s) {
+        int CHARACTER_SIZE = 265;
+        boolean[] visited = new boolean[CHARACTER_SIZE];
+        int[] frequencies = new int[CHARACTER_SIZE];
+
+        for (int i = 0; i < s.length(); i++) {
+            frequencies[s.charAt(i)]++;
+        }
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < s.length(); i++) {
+            Character curChar = s.charAt(i);
+            frequencies[curChar]--;
+            if (!visited[curChar]) {
+                //remove from the back of the que
+                while (sb.length() > 0 && curChar < sb.charAt(sb.length() - 1) && frequencies[sb.charAt(sb.length() - 1)] > 0) {
+                    visited[sb.charAt(sb.length() - 1)] = false;
+                    sb.deleteCharAt(sb.length() - 1);
+                }
+                sb.append(curChar);
+                visited[curChar] = true;
+            }
+        }
+        return sb.toString();
+    }
+
+    //bad solution
+    /*
     public String removeDuplicateLetters(String s) {
         int charLength = 26;
         int[] charCounts = new int[charLength];
@@ -74,4 +101,5 @@ public class RemoveDuplicateLetters {
             }
         }
     }
+    */
 }

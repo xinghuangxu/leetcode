@@ -37,7 +37,7 @@ public class BinaryTreeUpsideDownTest extends TestCase {
         BinaryTreeUpsideDown binaryTreeUpsideDown = new BinaryTreeUpsideDown();
         TreeNode actualRoot = binaryTreeUpsideDown.upsideDownBinaryTree(root);
         assertEquals(2, actualRoot.val);
-        assertEquals(null, actualRoot.left.val);
+        assertEquals(null, actualRoot.left);
         assertEquals(1, actualRoot.right.val);
 
     }

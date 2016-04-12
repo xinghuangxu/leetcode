@@ -155,7 +155,7 @@ public class BasicCalculator {
             int secondNum = Integer.parseInt(stack.pop());
             stack.pop();
             int firtNum = Integer.parseInt(stack.pop());
-            
+
             State state = getNextState(nextToken);
             stack.push(nextToken);
             return state.process(stack, tokens);

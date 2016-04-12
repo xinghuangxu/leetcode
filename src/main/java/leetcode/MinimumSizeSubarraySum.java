@@ -1,6 +1,7 @@
 package leetcode;
 
 import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.Queue;
 
 /**
@@ -8,23 +9,44 @@ import java.util.Queue;
  */
 public class MinimumSizeSubarraySum {
 
+
     public int minSubArrayLen(int s, int[] nums) {
-        int left = 0;
-        int minimumLength = Integer.MAX_VALUE;
-        int windowSum = 0;
+        int currentSum = 0;
+        int minLength = Integer.MAX_VALUE;
+        Deque<Integer> deque = new ArrayDeque();
         for (int i = 0; i < nums.length; i++) {
-            windowSum += nums[i];
-            while (windowSum - nums[left] >= s) {
-                windowSum -= nums[left];
-                left++;
+            deque.addLast(nums[i]);
+            currentSum += nums[i];
+            while (currentSum - deque.getFirst() >= s) {
+                currentSum -= deque.getFirst();
+                deque.removeFirst();
             }
-            if (windowSum >= s && minimumLength > i - left + 1) {
-                minimumLength = i - left + 1;
+            if (currentSum >= s && minLength > deque.size()) {
+                minLength = deque.size();
             }
         }
-        if (minimumLength == Integer.MAX_VALUE) return 0;
-        return minimumLength;
+        if (minLength == Integer.MAX_VALUE) return 0;
+        return minLength;
     }
+
+
+//    public int minSubArrayLen(int s, int[] nums) {
+//        int left = 0;
+//        int minimumLength = Integer.MAX_VALUE;
+//        int windowSum = 0;
+//        for (int i = 0; i < nums.length; i++) {
+//            windowSum += nums[i];
+//            while (windowSum - nums[left] >= s) {
+//                windowSum -= nums[left];
+//                left++;
+//            }
+//            if (windowSum >= s && minimumLength > i - left + 1) {
+//                minimumLength = i - left + 1;
+//            }
+//        }
+//        if (minimumLength == Integer.MAX_VALUE) return 0;
+//        return minimumLength;
+//    }
 
 //    public int minSubArrayLen(int s, int[] nums) {
 //        if(nums.length == 0)return 0;
