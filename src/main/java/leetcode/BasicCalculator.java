@@ -19,42 +19,31 @@ public class BasicCalculator {
         public State root = new A();
 
         public int process(Queue<String> tokens) {
-            Stack<String> stack = new Stack<String>();
-            stack.add("$");
-            int value = 0;
-            while (!tokens.isEmpty()) {
-                State current = root.locate(stack, 0);
-                value = current.process(stack, tokens);
+            Stack<State> stack = new Stack<State>();
+            stack.add(new A());
+            while (!(stack.peek() instanceof Accept)) {
+                stack.peek().process(stack, tokens);
             }
-            return value;
+            return Integer.parseInt(stack.peek().val);
         }
     }
 
     class A extends State {
 
         @Override
-        int process(Stack<String> stack, Queue<String> tokens) {
+        void process(Stack<State> stack, Queue<String> tokens) {
             String nextToken = tokens.poll();
             State state = getNextState(nextToken);
-            stack.push(nextToken);
-            return state.process(stack, tokens);
-        }
-
-        @Override
-        State locate(Stack<String> stack, int pos) {
-            if (pos == stack.size() - 1) {
-                return this;
-            }
-            String nextToken = stack.get(pos + 1);
-            return getNextState(nextToken);
+            state.val = nextToken;
+            stack.push(state);
         }
 
         @Override
         State getNextState(String token) {
             if (token.equals("(")) {
-                return (new B());
-            } else { // nextToken is E
                 return (new D());
+            } else { // nextToken is EN
+                return (new B());
             }
         }
     }
@@ -62,28 +51,24 @@ public class BasicCalculator {
     class B extends State {
 
         @Override
-        int process(Stack<String> stack, Queue<String> tokens) {
+        void process(Stack<State> stack, Queue<String> tokens) {
             if (tokens.isEmpty()) {
-                return Integer.parseInt(stack.peek());
+                String result = stack.pop().val;
+                State accept = new Accept();
+                accept.val = result;
+                stack.push(accept);
             } else {
                 String nextToken = tokens.poll();
-                stack.push(nextToken);
-                return getNextState(nextToken).process(stack, tokens);
+                State state = getNextState(nextToken);
+                state.val = nextToken;
+                stack.push(state);
+                state.process(stack, tokens);
             }
-        }
-
-        @Override
-        State locate(Stack<String> stack, int pos) {
-            if (pos == stack.size() - 1) {
-                return this;
-            }
-            String nextToken = stack.get(pos + 1);
-            return getNextState(nextToken);
         }
 
         @Override
         State getNextState(String token) {
-            if (token.equals("+")) {
+            if (token.equals("+") || token.equals("-")) {
                 return (new C());
             }
             return new G();
@@ -93,27 +78,18 @@ public class BasicCalculator {
     class C extends State {
 
         @Override
-        int process(Stack<String> stack, Queue<String> tokens) {
+        void process(Stack<State> stack, Queue<String> tokens) {
             String nextToken = tokens.poll();
             State state = getNextState(nextToken);
-            stack.push(nextToken);
-            return state.process(stack, tokens);
-        }
-
-        @Override
-        State locate(Stack<String> stack, int pos) {
-            if (pos == stack.size() - 1) {
-                return this;
-            }
-            String nextToken = stack.get(pos + 1);
-            return getNextState(nextToken);
+            state.val = nextToken;
+            stack.push(state);
         }
 
         @Override
         State getNextState(String token) {
             if (token.equals("(")) {
                 return (new D());
-            } else { // nextToken is E
+            } else { // nextToken is EN
                 return (new E());
             }
         }
@@ -122,27 +98,18 @@ public class BasicCalculator {
     class D extends State {
 
         @Override
-        int process(Stack<String> stack, Queue<String> tokens) {
+        void process(Stack<State> stack, Queue<String> tokens) {
             String nextToken = tokens.poll();
             State state = getNextState(nextToken);
-            stack.push(nextToken);
-            return state.process(stack, tokens);
-        }
-
-        @Override
-        State locate(Stack<String> stack, int pos) {
-            if (pos == stack.size() - 1) {
-                return this;
-            }
-            String nextToken = stack.get(pos + 1);
-            return getNextState(nextToken);
+            state.val = nextToken;
+            stack.push(state);
         }
 
         @Override
         State getNextState(String token) {
             if (token.equals("(")) {
                 return (new D());
-            } else { // nextToken is E
+            } else { // nextToken is EN
                 return (new F());
             }
         }
@@ -151,58 +118,86 @@ public class BasicCalculator {
     class E extends State {
 
         @Override
-        int process(Stack<String> stack, Queue<String> tokens) {
-            int secondNum = Integer.parseInt(stack.pop());
-            stack.pop();
-            int firtNum = Integer.parseInt(stack.pop());
-
-            State state = getNextState(nextToken);
-            stack.push(nextToken);
-            return state.process(stack, tokens);
-        }
-
-        @Override
-        State locate(Stack<String> stack, int pos) {
-            if (pos == stack.size() - 1) {
-                return this;
+        void process(Stack<State> stack, Queue<String> tokens) {
+            int secondNum = Integer.parseInt(stack.pop().val);
+            String operator = stack.pop().val;
+            int firstNum = Integer.parseInt(stack.pop().val);
+            int sum = 0;
+            if (operator.equals("+")) {
+                sum = firstNum + secondNum;
+            } else {
+                sum = firstNum - secondNum;
             }
-            String nextToken = stack.get(pos + 1);
-            return getNextState(nextToken);
+            State preState = stack.peek();
+            State state = preState.getNextState(sum + "");
+            state.val = sum + "";
+            stack.push(state);
         }
 
         @Override
         State getNextState(String token) {
-            if (token.equals("(")) {
-                return (new D());
-            } else { // nextToken is E
-                return (new F());
-            }
+            return null;
         }
     }
 
     class F extends State {
 
         @Override
-        int process(Stack<String> stack, Queue<String> tokens) {
-            return 0;
+        void process(Stack<State> stack, Queue<String> tokens) {
+            String nextToken = tokens.poll();
+            State state = getNextState(nextToken);
+            state.val = nextToken;
+            stack.push(state);
         }
 
         @Override
-        State locate(Stack<String> stack, int pos) {
-            return null;
+        State getNextState(String token) {
+            if (token.equals(")")) {
+                return (new H());
+            } else if (token.equals("+") || token.equals("-")) { // nextToken is EN
+                return (new C());
+            } else {
+                return new G();
+            }
         }
     }
 
     class G extends State {
 
         @Override
-        int process(Stack<String> stack, Queue<String> tokens) {
-            return 0;
+        void process(Stack<State> stack, Queue<String> tokens) {
+
         }
 
         @Override
-        State locate(Stack<String> stack, int pos) {
-            return new G();
+        State getNextState(String token) {
+            return null;
+        }
+    }
+
+    class H extends State {
+        @Override
+        void process(Stack<State> stack, Queue<String> tokens) {
+            stack.pop();
+            State oldState = stack.pop();
+            stack.pop();
+            State prevState = stack.peek();
+            State newState = prevState.getNextState(oldState.val);
+            newState.val = oldState.val;
+            stack.push(newState);
+        }
+
+        @Override
+        State getNextState(String token) {
+            return null;
+        }
+    }
+
+    class Accept extends State {
+
+        @Override
+        void process(Stack<State> stack, Queue<String> tokens) {
+
         }
 
         @Override
@@ -213,9 +208,9 @@ public class BasicCalculator {
 
     // 6. Create a state base class that makes the concrete states interchangeable
     abstract class State {
-        abstract int process(Stack<String> stack, Queue<String> tokens);
+        String val;
 
-        abstract State locate(Stack<String> stack, int pos);
+        abstract void process(Stack<State> stack, Queue<String> tokens);
 
         abstract State getNextState(String token);
     }
@@ -224,15 +219,15 @@ public class BasicCalculator {
     private Queue<String> tokenize(String s) {
         Queue<String> tokens = new ArrayDeque();
         for (int i = 0; i < s.length(); i++) {
-            if (s.charAt(i) == '(' || s.charAt(i) == ')' || s.charAt(i) == '+') {
+            if (s.charAt(i) == '(' || s.charAt(i) == ')' || s.charAt(i) == '+' || s.charAt(i) == '-') {
                 tokens.add(s.charAt(i) + "");
             } else if (isCharANum(s.charAt(i))) {
                 int p = i + 1;
-                while (p < s.length() && isCharANum(s.charAt(i))) {
+                while (p < s.length() && isCharANum(s.charAt(p))) {
                     p++;
                 }
-                if (isCharANum(s.charAt(p))) tokens.add(s.substring(i, p + 1))
-                else tokens.add(s.substring(i, p));
+                tokens.add(s.substring(i, p));
+                i = p - 1;
             }
         }
         return tokens;
