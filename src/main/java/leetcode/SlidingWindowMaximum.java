@@ -36,16 +36,16 @@ public class SlidingWindowMaximum {
 
 //    class Element implements Comparable<Element> {
 //        int index;
-//        int value;
+//        int inDegree;
 //
-//        Element(int index, int value) {
+//        Element(int index, int inDegree) {
 //            this.index = index;
-//            this.value = value;
+//            this.inDegree = inDegree;
 //        }
 //
 //        public int compareTo(Element o) {
-//            if (value > o.value) return -1;
-//            if (value == o.value) return 0;
+//            if (inDegree > o.inDegree) return -1;
+//            if (inDegree == o.inDegree) return 0;
 //            return 1;
 //        }
 //    }
@@ -61,11 +61,11 @@ public class SlidingWindowMaximum {
 //        for (int i = 0; i < k; i++) {
 //            queue.add(elements[i]);
 //        }
-//        result[0] = queue.peek().value;
+//        result[0] = queue.peek().inDegree;
 //        for (int i = 0; i < nums.length - k; i++) {
 //            queue.remove(result[i]);
 //            queue.add(elements[i + k]);
-//            result[i + 1] = queue.peek().value;
+//            result[i + 1] = queue.peek().inDegree;
 //        }
 //        return result;
 //    }

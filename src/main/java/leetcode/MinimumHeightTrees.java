@@ -30,7 +30,7 @@ public class MinimumHeightTrees {
             queue.add(0);
             return queue;
         }
-        List<Integer> tmp = queue;
+        List<Integer> tmp;
         while (true) {
             tmp = new ArrayList();
             for(int i=0;i<queue.size();i++){

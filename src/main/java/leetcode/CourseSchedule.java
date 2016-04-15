@@ -2,16 +2,60 @@ package leetcode;
 
 import lombok.AllArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by xinghuangxu on 8/18/15.
  */
 public class CourseSchedule {
 
+    class Node{
+        int key;
+        Node(int key){
+            this.key = key;
+        }
+        int inDegree=0;
+        List<Node> children=new ArrayList();
+
+        public void add(Node child) {
+            children.add(child);
+            child.inDegree++;
+        }
+    }
+
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        Map<Integer,Node> map = new HashMap();
+        for(int i=0;i<numCourses;i++){
+            map.put(i,new Node(i));
+        }
+        for(int[] sequence: prerequisites){
+            Node child = map.get(sequence[0]);
+            Node parent = map.get(sequence[1]);
+            parent.add(child);
+        }
+        Stack<Node> stack = new Stack();
+        for(Integer key:map.keySet()){
+            if(map.get(key).inDegree==0){
+                stack.add(map.get(key));
+            }
+        }
+        while(!stack.isEmpty()){
+            Node tmp = stack.pop();
+            if(map.containsKey(tmp.key)){
+                map.remove(tmp.key);
+                List<Node> children = tmp.children;
+                for(Node child:children){
+                    child.inDegree--;
+                    if(child.inDegree==0){
+                        stack.add(child);
+                    }
+                }
+            }
+        }
+        if(map.keySet().size()==0)return true;
+        return false;
+    }
+    /*
     private class Node{
         private Node(int id){
             this.id = id;
@@ -88,5 +132,5 @@ public class CourseSchedule {
         }
         return false;
     }
-
+*/
 }

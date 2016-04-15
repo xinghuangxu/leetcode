@@ -152,13 +152,7 @@ public class BasicCalculator {
 
         @Override
         int process(Stack<String> stack, Queue<String> tokens) {
-            int secondNum = Integer.parseInt(stack.pop());
-            stack.pop();
-            int firtNum = Integer.parseInt(stack.pop());
-
-            State state = getNextState(nextToken);
-            stack.push(nextToken);
-            return state.process(stack, tokens);
+            return 0;
         }
 
         @Override
@@ -189,6 +183,11 @@ public class BasicCalculator {
 
         @Override
         State locate(Stack<String> stack, int pos) {
+            return null;
+        }
+
+        @Override
+        State getNextState(String token) {
             return null;
         }
     }
@@ -231,7 +230,7 @@ public class BasicCalculator {
                 while (p < s.length() && isCharANum(s.charAt(i))) {
                     p++;
                 }
-                if (isCharANum(s.charAt(p))) tokens.add(s.substring(i, p + 1))
+                if (isCharANum(s.charAt(p))) tokens.add(s.substring(i, p + 1));
                 else tokens.add(s.substring(i, p));
             }
         }

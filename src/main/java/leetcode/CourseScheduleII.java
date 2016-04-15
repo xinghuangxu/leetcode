@@ -6,6 +6,58 @@ import java.util.*;
  * Created by Xinghuang Leon Xu on 11/1/2015.
  */
 public class CourseScheduleII {
+
+    class Node{
+        int key;
+        Node(int key){
+            this.key = key;
+        }
+        int inDegree=0;
+        List<Node> children=new ArrayList();
+
+        public void add(Node child) {
+            children.add(child);
+            child.inDegree++;
+        }
+    }
+
+    public int[] findOrder(int numCourses, int[][] prerequisites) {
+        Map<Integer,Node> map = new HashMap();
+        int[] courses = new int[numCourses];
+        for(int i=0;i<numCourses;i++){
+            map.put(i,new Node(i));
+        }
+        for(int[] sequence: prerequisites){
+            Node child = map.get(sequence[0]);
+            Node parent = map.get(sequence[1]);
+            parent.add(child);
+        }
+        Stack<Node> stack = new Stack();
+        for(Integer key:map.keySet()){
+            if(map.get(key).inDegree==0){
+                stack.add(map.get(key));
+            }
+        }
+        int i=0;
+        while(!stack.isEmpty()){
+            Node tmp = stack.pop();
+            if(map.containsKey(tmp.key)){
+                courses[i++]=tmp.key;
+                map.remove(tmp.key);
+                List<Node> children = tmp.children;
+                for(Node child:children){
+                    child.inDegree--;
+                    if(child.inDegree==0){
+                        stack.add(child);
+                    }
+                }
+            }
+        }
+        if(map.keySet().size()==0)return courses;
+        return new int[]{};
+    }
+
+    /*
     class Node {
         int id;
 
@@ -67,4 +119,5 @@ public class CourseScheduleII {
         }
         return new int[0];
     }
+    */
 }

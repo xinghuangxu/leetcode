@@ -28,4 +28,18 @@ public class BasicCalculatorIITest extends TestCase {
         int actual = basicCalculator.calculate(" 3+5 / 2 ");
         assertEquals(5, actual);
     }
+
+    @Test
+    public void test4() {
+        BasicCalculatorII basicCalculator = new BasicCalculatorII();
+        int actual = basicCalculator.calculate(" 3+15 / 2 ");
+        assertEquals(10, actual);
+    }
+
+    @Test
+    public void test5() {
+        BasicCalculatorII basicCalculator = new BasicCalculatorII();
+        int actual = basicCalculator.calculate(" 42 ");
+        assertEquals(10, actual);
+    }
 }

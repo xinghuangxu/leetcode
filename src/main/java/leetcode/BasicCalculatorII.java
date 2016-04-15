@@ -1,13 +1,83 @@
 package leetcode;
 
-import java.util.Stack;
+import java.util.*;
 
 /**
  * Created by Xinghuang Leon Xu on 9/1/2015.
  */
 public class BasicCalculatorII {
 
+    public int calculate(String s) {
+        List<Integer> tokens = tokenize(s);
+        int i=0;
+        while(i<tokens.size()){
+            if(tokens.get(i)=='*'){
+                int firstNumber = tokens.remove(i-1);
+                tokens.remove(i-1);
+                int secondNumber = tokens.remove(i-1);
+                int result = firstNumber*secondNumber;
+                tokens.add(i-1,result);
+                i=i-1;
+            }else if(tokens.get(i)=='/'){
+                int firstNumber = tokens.remove(i-1);
+                tokens.remove(i-1);
+                int secondNumber = tokens.remove(i-1);
+                int result = firstNumber/secondNumber;
+                tokens.add(i-1,result);
+                i=i-1;
+            }else{
+                i++;
+            }
+        }
 
+        i=0;
+        while(i<tokens.size()){
+            if(tokens.get(i)=='+'){
+                int firstNumber = tokens.remove(i-1);
+                tokens.remove(i-1);
+                int secondNumber = tokens.remove(i-1);
+                int result = firstNumber+secondNumber;
+                tokens.add(i-1,result);
+                i=i-1;
+            }else if(tokens.get(i)=='-'){
+                int firstNumber = tokens.remove(i-1);
+                tokens.remove(i-1);
+                int secondNumber = tokens.remove(i-1);
+                int result = firstNumber-secondNumber;
+                tokens.add(i-1,result);
+                i=i-1;
+            }else{
+                i++;
+            }
+        }
+
+        return tokens.get(0);
+    }
+
+    private List<Integer> tokenize(String s) {
+        List<Integer> tokens = new LinkedList();
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) == '*' || s.charAt(i) == '/' || s.charAt(i) == '+'|| s.charAt(i) == '-') {
+                tokens.add((int)s.charAt(i));
+            } else if (isCharANum(s.charAt(i))) {
+                int num = s.charAt(i)-'0';
+                int p = i + 1;
+                while (p < s.length() && isCharANum(s.charAt(p))) {
+                    num= num*10 + s.charAt(p)-'0';
+                    p++;
+                }
+                tokens.add(num);
+                i=p-1;
+            }
+        }
+        return tokens;
+    }
+
+    boolean isCharANum(char c) {
+        return '0' <= c && c <= '9';
+    }
+
+    /*
     int location;
 
     public int calculate(String s) {
@@ -67,4 +137,6 @@ public class BasicCalculatorII {
         location++;
         return num;
     }
+
+    */
 }
