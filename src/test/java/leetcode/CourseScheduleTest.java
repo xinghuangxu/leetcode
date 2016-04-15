@@ -35,7 +35,7 @@ public class CourseScheduleTest {
     public void test3() {
 
         int[][] prerequisite = {
-                {}
+
         };
         CourseSchedule courseSchedule = new CourseSchedule();
         boolean actual = courseSchedule.canFinish(1, prerequisite);

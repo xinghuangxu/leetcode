@@ -117,7 +117,7 @@ public class NumberOfIslands {
      * @param grid
      * @param i
      * @param j
-     * @return true if value got updated
+     * @return true if inDegree got updated
      */
      /*
     private boolean updateMinimumAround(int[][] grid, int i, int j) {
