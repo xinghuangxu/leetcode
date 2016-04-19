@@ -20,9 +20,7 @@ public class GraphValidTree {
             graph.get(x).add(y);
             graph.get(y).add(x);
         }
-        boolean[] visited = new boolean[n];
-        visited[0] = true;
-        dfs(graph, 0, visited);
+        dfs(graph, 0);
         if (graph.size() > 0) { //need to be strongly connected
             return false;
         }
@@ -30,15 +28,15 @@ public class GraphValidTree {
         return true;
     }
 
-    private void dfs(Map<Integer, Set<Integer>> graph, int key, boolean[] visited) {
-        if (graph.containsKey(key)) {
+    private void dfs(Map<Integer, Set<Integer>> graph, int key) {
+        if (!hasLoop&&graph.containsKey(key)) {
             Set<Integer> nodes = graph.get(key);
             graph.remove(key);
             for (Integer n : nodes) {
                 graph.get(n).remove(key);
             }
             for (Integer n : nodes) {
-               // dfs(graph, n, indegrees);
+               dfs(graph, n);
             }
         } else {
             hasLoop = true;

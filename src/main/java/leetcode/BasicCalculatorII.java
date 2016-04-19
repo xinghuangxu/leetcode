@@ -9,6 +9,9 @@ import java.util.*;
  */
 public class BasicCalculatorII {
 
+
+
+
     public int calculate(String s) {
 
         List<Integer> tokens = tokenize(s);
@@ -76,9 +79,11 @@ public class BasicCalculatorII {
         return tokens;
     }
 
+
     boolean isCharANum(char c) {
         return '0' <= c && c <= '9';
     }
+
 
     /*
 
