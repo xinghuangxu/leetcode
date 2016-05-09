@@ -9,6 +9,36 @@ import java.util.Stack;
 public class BasicCalculator {
 
 
+    int position = 0;
+
+    public int calculate(String s) {
+        int sign = 1, num = 0, result = 0;
+        while (position < s.length()) {
+            if (s.charAt(position) == ' ') position++;
+            else if (s.charAt(position) == '+' || s.charAt(position) == '-') {
+                result += sign * num;
+                sign = s.charAt(position) == '+' ? 1 : -1;
+                position++;
+            } else if (s.charAt(position) >= '0' && s.charAt(position) <= '9') {
+                num = 0;
+                while (position < s.length() && s.charAt(position) >= '0' && s.charAt(position) <= '9') {
+                    num = num * 10 + s.charAt(position) - '0';
+                    position++;
+                }
+            } else if (s.charAt(position) == '(') {
+                position++;
+                num = calculate(s);
+            } else { //close parenthesis
+                position++;
+                return result + sign*num;
+            }
+        }
+        return result + sign*num;
+    }
+
+
+    /*
+
     public int calculate(String s) {
         Queue<String> tokens = tokenize(s);
         FSM fsm = new FSM();
@@ -237,7 +267,7 @@ public class BasicCalculator {
     boolean isCharANum(char c) {
         return '0' <= c && c <= '9';
     }
-
+*/
 
 //    int location;
 //

@@ -38,4 +38,11 @@ public class BasicCalculatorTest extends TestCase {
         int actual = basicCalculator.calculate("2-4-(8+2-6+(8+4-(1)+8-10))");
         assertEquals(-15, actual);
     }
+
+    @Test
+    public void test5() {
+        BasicCalculator basicCalculator = new BasicCalculator();
+        int actual = basicCalculator.calculate("4-(1)");
+        assertEquals(3, actual);
+    }
 }
