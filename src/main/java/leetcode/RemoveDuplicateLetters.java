@@ -8,6 +8,37 @@ import java.util.*;
 public class RemoveDuplicateLetters {
 
     public String removeDuplicateLetters(String s) {
+        int CHARACTER_SIZE = 256;
+        int[] count = new int[CHARACTER_SIZE];
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < s.length(); i++) {
+            count[s.charAt(i)]++;
+            sb.append(s.charAt(i));
+        }
+        int i = 0;
+        while (i != sb.length()) {
+            if (i > -1 && i + 1 < sb.length()) {
+                if (sb.charAt(i) > sb.charAt(i + 1) && count[sb.charAt(i)] > 1) {
+                    count[sb.charAt(i)]--;
+                    sb.deleteCharAt(i);
+                    i = i - 2;
+                }
+            }
+            i++;
+        }
+        i = sb.length() - 1;
+        while (i != 0) {
+            if (count[sb.charAt(i)] > 1) {
+                sb.deleteCharAt(i);
+            }
+            i--;
+        }
+        return sb.toString();
+    }
+
+    /*
+
+    public String removeDuplicateLetters(String s) {
         int CHARACTER_SIZE = 265;
         boolean[] visited = new boolean[CHARACTER_SIZE];
         int[] frequencies = new int[CHARACTER_SIZE];
@@ -32,6 +63,7 @@ public class RemoveDuplicateLetters {
         }
         return sb.toString();
     }
+    */
 
     //bad solution
     /*
